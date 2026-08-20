@@ -7,16 +7,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy backend requirements and install
-COPY chatbot/backend/requirements.txt .
+# Copy requirements and install
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend and frontend source code
-COPY chatbot/backend/ ./chatbot/backend/
-COPY chatbot/frontend/ ./chatbot/frontend/
-
-# Set working directory to the backend directory
-WORKDIR /app/chatbot/backend
+# Copy backend source code (including frontend/)
+COPY . .
 
 # Expose port 10000 (Render default)
 EXPOSE 10000

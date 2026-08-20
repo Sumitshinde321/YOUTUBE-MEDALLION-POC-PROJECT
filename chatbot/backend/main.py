@@ -152,7 +152,7 @@ def health():
 @app.get("/", response_class=HTMLResponse)
 def serve_ui():
     ui_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
+        os.path.dirname(os.path.abspath(__file__)), 
         "frontend", 
         "index.html"
     )
@@ -163,6 +163,6 @@ def serve_ui():
     return HTMLResponse(content=html_content, status_code=200)
 
 # Serve generated reports statically
-reports_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "reports")
+reports_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports")
 os.makedirs(reports_dir, exist_ok=True)
 app.mount("/reports", StaticFiles(directory=reports_dir), name="reports")
