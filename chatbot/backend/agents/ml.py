@@ -209,34 +209,34 @@ def handle_ml_query(user_message: str) -> dict:
     if task == "forecast":
         res = run_forecast(metric, entity)
         if res.get("status") == "success":
-            intro = f"Successfully generated a 30-day linear projection for {entity or 'overall'} {metric}."
+            intro = f"I have generated a 30-day linear projection forecast for {entity if entity else 'overall'} {metric}."
             return {"result": intro, "raw_data": res, "status": "success"}
         else:
-            return {"result": f"Forecasting failed: {res.get('error')}", "raw_data": res, "status": "error"}
+            return {"result": f"I was unable to complete the forecast because: {res.get('error')}", "raw_data": res, "status": "error"}
             
     elif task == "anomaly":
         res = run_anomaly_detection(metric)
         if res.get("status") == "success":
-            intro = f"Completed outlier detection check on daily {metric}."
+            intro = f"I have completed the anomaly detection scan on daily {metric}."
             return {"result": intro, "raw_data": res, "status": "success"}
         else:
-            return {"result": f"Anomaly detection failed: {res.get('error')}", "raw_data": res, "status": "error"}
+            return {"result": f"I was unable to complete anomaly detection because: {res.get('error')}", "raw_data": res, "status": "error"}
             
     elif task == "decline":
         res = run_decline_analysis(entity)
         if res.get("status") == "success":
-            intro = f"Analyzed popularity trend and decline likelihood for channel: {entity}."
+            intro = f"I have completed the performance trend and decline likelihood analysis for the channel: **{entity}**."
             return {"result": intro, "raw_data": res, "status": "success"}
         else:
-            return {"result": f"Decline analysis failed: {res.get('error')}", "raw_data": res, "status": "error"}
+            return {"result": f"I was unable to analyze channel decline because: {res.get('error')}", "raw_data": res, "status": "error"}
             
     else:
         # Graceful fallback response
         response_text = (
-            "I do not have a pre-trained model for that query. Currently, I support:\n"
-            "1. **Trend Forecasts**: 'Forecast views for 5-Minute Crafts' or 'predict daily likes trend'.\n"
-            "2. **Anomaly Detection**: 'Check for daily anomalies in views' or 'find spikes in likes'.\n"
-            "3. **Decline Likelihood**: 'Check if views for Cocomelon are declining'."
+            "I don't have a configured forecasting model for that query. Currently, I support the following creator analytics tasks:\n"
+            "1. **Trend Forecasts**: E.g., 'Forecast views for 5-Minute Crafts' or 'Predict daily views trend'.\n"
+            "2. **Anomaly Detection**: E.g., 'Are there daily anomalies in views?' or 'Find spikes in likes'.\n"
+            "3. **Decline Likelihood**: E.g., 'Is the channel Cocomelon declining in views?'"
         )
         return {
             "result": response_text,

@@ -276,13 +276,19 @@
         }
 
         .status-dot {
-            width: 7px;
-            height: 7px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             display: inline-block;
         }
 
-        .status-dot.online { background-color: var(--success-color); box-shadow: 0 0 6px var(--success-color); }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; box-shadow: 0 0 0 0 rgba(43, 166, 64, 0.7); }
+            70% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 6px rgba(43, 166, 64, 0); }
+            100% { transform: scale(0.95); opacity: 0.8; box-shadow: 0 0 0 0 rgba(43, 166, 64, 0); }
+        }
+
+        .status-dot.online { background-color: var(--success-color); animation: pulse 2s infinite; }
         .status-dot.offline { background-color: var(--error-color); box-shadow: 0 0 6px var(--error-color); }
 
         .sidebar-footer-controls {
@@ -550,20 +556,36 @@
         .chat-bubble table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.75rem;
-            margin: 12px 0;
-            display: block;
-            overflow-x: auto;
+            font-size: 0.82rem;
+            margin: 14px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
         }
 
         .chat-bubble th, .chat-bubble td {
-            border: 1px solid var(--border-color);
-            padding: 8px 10px;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .chat-bubble th {
-            background-color: var(--bg-primary);
+            background-color: rgba(255, 78, 78, 0.08);
+            color: var(--primary-accent);
             font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .chat-bubble td {
+            color: var(--text-primary);
+        }
+
+        .chat-bubble tr:last-child td {
+            border-bottom: none;
+        }
+
+        .chat-bubble tr:hover td {
+            background-color: var(--primary-light);
         }
 
         /* Suggestions Pills */
@@ -767,7 +789,7 @@
                                 <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.516 0-9.387.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.387.508 9.387.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                             </svg>
                         </div>
-                        <span>Pipeline Command</span>
+                        <span>Studio Analytics</span>
                     </div>
                 </div>
 
@@ -798,7 +820,7 @@
                 </div>
 
                 <div class="sidebar-footer-controls">
-                    <span class="sidebar-ver">v1.0.0 Medallion</span>
+                    <span class="sidebar-ver">v1.0.0 Creator Studio</span>
                     <button class="theme-toggle-btn" id="theme-toggle" title="Toggle color theme">
                         <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                         <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -811,8 +833,8 @@
         <main class="main-workspace">
             <header class="chat-header">
                 <div class="chat-header-info">
-                    <span class="chat-header-title">Pipeline Agentic Chatbot</span>
-                    <span class="chat-header-subtitle">Bronze → Silver → Gold PostgreSQL Assistant</span>
+                    <span class="chat-header-title">YouTube Studio Analytics Assistant</span>
+                    <span class="chat-header-subtitle">Intelligent insights for YouTube Medallion Data Pipelines</span>
                 </div>
             </header>
 
@@ -825,23 +847,23 @@
                             <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.516 0-9.387.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.387.508 9.387.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                         </svg>
                     </div>
-                    <h2 class="welcome-title">Ask natural-language questions about pipeline execution or warehouse data</h2>
+                    <h2 class="welcome-title">Ask natural-language questions about channel performance, views, or data pipeline status</h2>
                     
                     <div class="welcome-features">
                         <div class="feature-card">
                             <div class="feature-icon">⚙️</div>
-                            <div class="feature-headline">Pipeline Support</div>
-                            <div class="feature-desc">Check run logs, durations, task statuses, failures, and rejection reasons inside metadata.</div>
+                            <div class="feature-headline">Pipeline & System Health</div>
+                            <div class="feature-desc">Monitor data pipeline status, execution durations, run logs, task failures, and data quality check results.</div>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon">📊</div>
-                            <div class="feature-headline">Data Exploration</div>
-                            <div class="feature-desc">Query rankings, channels, category totals, and video performance metrics inside Gold/Silver layers.</div>
+                            <div class="feature-headline">Channel & Video Analytics</div>
+                            <div class="feature-desc">Analyze view counts, likes, category totals, subscriber statistics, and rankings of top-trending videos.</div>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon">🔮</div>
-                            <div class="feature-headline">ML & Forecasting</div>
-                            <div class="feature-desc">Calculate linear projections, trend analysis, anomaly detection, and channel decline slopes.</div>
+                            <div class="feature-headline">AI Forecasting & Trends</div>
+                            <div class="feature-desc">Forecast future viewership trends, assess popularity decline likelihoods, and detect daily activity anomalies.</div>
                         </div>
                     </div>
                 </div>
@@ -854,7 +876,7 @@
                     <textarea 
                         class="input-textarea" 
                         id="chat-input" 
-                        placeholder="Ask about pipeline status, top channels, or forecast views..."
+                        placeholder="Ask about channel analytics, top trending videos, forecast trends, or pipeline status..."
                         rows="1"
                     ></textarea>
 
@@ -874,11 +896,11 @@
 
     <script>
         const SUGGESTIONS = [
-            "Show me the status of the last DAG run.",
-            "Show me the top 5 channels by total views.",
-            "Are there any anomalies in daily views?",
-            "Forecast views for tomorrow.",
-            "Generate report on top channels."
+            "What are the top 5 channels by total views?",
+            "Did the pipeline run succeed yesterday?",
+            "Show me daily view count anomalies.",
+            "Forecast views for the next 30 days.",
+            "Is the channel Cocomelon declining in views?"
         ];
 
         let currentSessionId = null;
