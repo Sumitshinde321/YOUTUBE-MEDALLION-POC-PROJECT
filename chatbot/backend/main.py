@@ -162,6 +162,11 @@ def serve_ui():
         html_content = f.read()
     return HTMLResponse(content=html_content, status_code=200)
 
+# Serve the HTML frontend on Render's custom health check path / entrypoint
+@app.get("/YouTube_analytic_chatbot", response_class=HTMLResponse)
+def serve_ui_alt():
+    return serve_ui()
+
 # Serve generated reports statically
 reports_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports")
 os.makedirs(reports_dir, exist_ok=True)
