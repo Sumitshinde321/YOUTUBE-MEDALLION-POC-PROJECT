@@ -21,8 +21,14 @@ def get_gemini_client():
     if _client is None:
         # Check both the loaded env variable and the direct environment
         key = GEMINI_API_KEY or os.getenv("GEMINI_API_KEY")
-        if not key:
-            raise ValueError("GEMINI_API_KEY environment variable is missing. Please add it to your Render Environment Variables.")
+        if key:
+            key = str(key).strip()
+            
+        if not key or key.lower() in ("none", "null", "undefined", ""):
+            raise ValueError(
+                "GEMINI_API_KEY environment variable is missing or invalid. "
+                "Please add a valid Gemini API key to your Render Environment Variables."
+            )
         _client = genai.Client(api_key=key)
     return _client
 
