@@ -1,0 +1,33 @@
+{
+  "config": "{}",
+  "layout": {
+    "width": 1280,
+    "height": 720,
+    "pages": [
+      {
+        "name": "Page1",
+        "displayName": "Overview & Trends",
+        "displayState": "Visible",
+        "width": 1280,
+        "height": 720,
+        "visualTemplates": []
+      },
+      {
+        "name": "Page2",
+        "displayName": "Video Detail",
+        "displayState": "Visible",
+        "width": 1280,
+        "height": 720,
+        "visualTemplates": []
+      },
+      {
+        "name": "Page3",
+        "displayName": "Q&A and Analytics",
+        "displayState": "Visible",
+        "width": 1280,
+        "height": 720,
+        "visualTemplates": []
+      }
+    ]
+  }
+}

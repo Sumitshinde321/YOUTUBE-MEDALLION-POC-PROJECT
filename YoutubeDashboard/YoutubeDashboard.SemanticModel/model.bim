@@ -1,0 +1,443 @@
+{
+  "name": "YoutubeDashboardSemanticModel",
+  "compatibilityLevel": 1550,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "PostgreSQL/localhost:5433;data_warehouse",
+        "connectionDetails": {
+          "protocol": "postgresql",
+          "address": {
+            "server": "localhost:5433",
+            "database": "data_warehouse"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {},
+        "credential": null
+      }
+    ],
+    "tables": [
+      {
+        "name": "dim_channels",
+        "columns": [
+          {
+            "name": "dim_channel_key",
+            "dataType": "int64",
+            "sourceColumn": "dim_channel_key"
+          },
+          {
+            "name": "channel_id",
+            "dataType": "string",
+            "sourceColumn": "channel_id"
+          },
+          {
+            "name": "channel_title",
+            "dataType": "string",
+            "sourceColumn": "channel_title"
+          },
+          {
+            "name": "subscriber_count",
+            "dataType": "int64",
+            "sourceColumn": "subscriber_count"
+          },
+          {
+            "name": "country",
+            "dataType": "string",
+            "sourceColumn": "country"
+          },
+          {
+            "name": "total_videos",
+            "dataType": "int64",
+            "sourceColumn": "total_videos"
+          },
+          {
+            "name": "total_views",
+            "dataType": "int64",
+            "sourceColumn": "total_views"
+          },
+          {
+            "name": "channel_url",
+            "dataType": "string",
+            "sourceColumn": "channel_url",
+            "dataCategory": "WebURL"
+          },
+          {
+            "name": "version_number",
+            "dataType": "int64",
+            "sourceColumn": "version_number"
+          },
+          {
+            "name": "effective_start_date",
+            "dataType": "dateTime",
+            "sourceColumn": "effective_start_date"
+          },
+          {
+            "name": "effective_end_date",
+            "dataType": "dateTime",
+            "sourceColumn": "effective_end_date"
+          },
+          {
+            "name": "is_current",
+            "dataType": "boolean",
+            "sourceColumn": "is_current"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition_dim_channels",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = PostgreSQL.Database(\"localhost:5433\", \"data_warehouse\"),",
+                "    gold_dim_channels = Source{[Schema=\"gold\",Item=\"dim_channels\"]}[Data]",
+                "in",
+                "    gold_dim_channels"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_videos",
+        "columns": [
+          {
+            "name": "dim_video_key",
+            "dataType": "int64",
+            "sourceColumn": "dim_video_key"
+          },
+          {
+            "name": "video_id",
+            "dataType": "string",
+            "sourceColumn": "video_id"
+          },
+          {
+            "name": "title",
+            "dataType": "string",
+            "sourceColumn": "title"
+          },
+          {
+            "name": "channel_title",
+            "dataType": "string",
+            "sourceColumn": "channel_title"
+          },
+          {
+            "name": "category_id",
+            "dataType": "int64",
+            "sourceColumn": "category_id"
+          },
+          {
+            "name": "publish_time",
+            "dataType": "dateTime",
+            "sourceColumn": "publish_time"
+          },
+          {
+            "name": "tags",
+            "dataType": "string",
+            "sourceColumn": "tags"
+          },
+          {
+            "name": "comments_disabled",
+            "dataType": "boolean",
+            "sourceColumn": "comments_disabled"
+          },
+          {
+            "name": "ratings_disabled",
+            "dataType": "boolean",
+            "sourceColumn": "ratings_disabled"
+          },
+          {
+            "name": "video_error_or_removed",
+            "dataType": "boolean",
+            "sourceColumn": "video_error_or_removed"
+          },
+          {
+            "name": "description",
+            "dataType": "string",
+            "sourceColumn": "description"
+          },
+          {
+            "name": "version_number",
+            "dataType": "int64",
+            "sourceColumn": "version_number"
+          },
+          {
+            "name": "effective_start_date",
+            "dataType": "dateTime",
+            "sourceColumn": "effective_start_date"
+          },
+          {
+            "name": "effective_end_date",
+            "dataType": "dateTime",
+            "sourceColumn": "effective_end_date"
+          },
+          {
+            "name": "is_current",
+            "dataType": "boolean",
+            "sourceColumn": "is_current"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition_dim_videos",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = PostgreSQL.Database(\"localhost:5433\", \"data_warehouse\"),",
+                "    gold_dim_videos = Source{[Schema=\"gold\",Item=\"dim_videos\"]}[Data]",
+                "in",
+                "    gold_dim_videos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_category",
+        "columns": [
+          {
+            "name": "category_id",
+            "dataType": "int64",
+            "sourceColumn": "category_id"
+          },
+          {
+            "name": "category_title",
+            "dataType": "string",
+            "sourceColumn": "category_title"
+          },
+          {
+            "name": "load_timestamp",
+            "dataType": "dateTime",
+            "sourceColumn": "load_timestamp"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition_dim_category",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = PostgreSQL.Database(\"localhost:5433\", \"data_warehouse\"),",
+                "    gold_dim_category = Source{[Schema=\"gold\",Item=\"dim_category\"]}[Data]",
+                "in",
+                "    gold_dim_category"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "fact_video_stats",
+        "columns": [
+          {
+            "name": "fact_key",
+            "dataType": "int64",
+            "sourceColumn": "fact_key"
+          },
+          {
+            "name": "video_id",
+            "dataType": "string",
+            "sourceColumn": "video_id"
+          },
+          {
+            "name": "trending_date",
+            "dataType": "dateTime",
+            "sourceColumn": "trending_date"
+          },
+          {
+            "name": "dim_video_key",
+            "dataType": "int64",
+            "sourceColumn": "dim_video_key"
+          },
+          {
+            "name": "dim_category_id",
+            "dataType": "int64",
+            "sourceColumn": "dim_category_id"
+          },
+          {
+            "name": "dim_channel_key",
+            "dataType": "int64",
+            "sourceColumn": "dim_channel_key"
+          },
+          {
+            "name": "views",
+            "dataType": "int64",
+            "sourceColumn": "views"
+          },
+          {
+            "name": "likes",
+            "dataType": "int64",
+            "sourceColumn": "likes"
+          },
+          {
+            "name": "dislikes",
+            "dataType": "int64",
+            "sourceColumn": "dislikes"
+          },
+          {
+            "name": "comment_count",
+            "dataType": "int64",
+            "sourceColumn": "comment_count"
+          },
+          {
+            "name": "load_timestamp",
+            "dataType": "dateTime",
+            "sourceColumn": "load_timestamp"
+          }
+        ],
+        "measures": [
+          {
+            "name": "Subscriber Count KPI",
+            "expression": "SUM(dim_channels[subscriber_count])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Total Views KPI",
+            "expression": "SUM(fact_video_stats[views])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Total Likes KPI",
+            "expression": "SUM(fact_video_stats[likes])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Total Dislikes KPI",
+            "expression": "SUM(fact_video_stats[dislikes])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Total Comment Count KPI",
+            "expression": "SUM(fact_video_stats[comment_count])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Subscriber Growth Alert",
+            "expression": "IF([Subscriber Count KPI] > 10000000, 1, 0)",
+            "formatString": "0"
+          },
+          {
+            "name": "View Spike Alert",
+            "expression": "IF([Total Views KPI] > 500000000, 1, 0)",
+            "formatString": "0"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition_fact_video_stats",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = PostgreSQL.Database(\"localhost:5433\", \"data_warehouse\"),",
+                "    gold_fact_video_stats = Source{[Schema=\"gold\",Item=\"fact_video_stats\"]}[Data]",
+                "in",
+                "    gold_fact_video_stats"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimDate",
+        "columns": [
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "[Date]"
+          },
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "sourceColumn": "[Year]"
+          },
+          {
+            "name": "Quarter",
+            "dataType": "string",
+            "sourceColumn": "[Quarter]"
+          },
+          {
+            "name": "Month",
+            "dataType": "string",
+            "sourceColumn": "[Month]"
+          },
+          {
+            "name": "MonthNo",
+            "dataType": "int64",
+            "sourceColumn": "[MonthNo]"
+          },
+          {
+            "name": "WeekNo",
+            "dataType": "int64",
+            "sourceColumn": "[WeekNo]"
+          },
+          {
+            "name": "DayOfWeek",
+            "dataType": "string",
+            "sourceColumn": "[DayOfWeek]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition_DimDate",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": [
+                "ADDCOLUMNS(",
+                "    CALENDAR(MIN(fact_video_stats[trending_date]), MAX(fact_video_stats[trending_date])),",
+                "    \"Year\", YEAR([Date]),",
+                "    \"Quarter\", \"Q\" & FORMAT([Date], \"Q\"),",
+                "    \"Month\", FORMAT([Date], \"MMMM\"),",
+                "    \"MonthNo\", MONTH([Date]),",
+                "    \"WeekNo\", WEEKNUM([Date]),",
+                "    \"DayOfWeek\", FORMAT([Date], \"dddd\")",
+                ")"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "rel_fact_video_stats_dim_channels",
+        "fromTable": "fact_video_stats",
+        "fromColumn": "dim_channel_key",
+        "toTable": "dim_channels",
+        "toColumn": "dim_channel_key"
+      },
+      {
+        "name": "rel_fact_video_stats_dim_videos",
+        "fromTable": "fact_video_stats",
+        "fromColumn": "dim_video_key",
+        "toTable": "dim_videos",
+        "toColumn": "dim_video_key"
+      },
+      {
+        "name": "rel_fact_video_stats_dim_category",
+        "fromTable": "fact_video_stats",
+        "fromColumn": "dim_category_id",
+        "toTable": "dim_category",
+        "toColumn": "category_id"
+      },
+      {
+        "name": "rel_fact_video_stats_dim_date",
+        "fromTable": "fact_video_stats",
+        "fromColumn": "trending_date",
+        "toTable": "DimDate",
+        "toColumn": "Date"
+      }
+    ]
+  }
+}
