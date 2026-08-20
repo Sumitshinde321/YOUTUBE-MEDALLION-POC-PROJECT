@@ -13,14 +13,26 @@ load_dotenv(dotenv_path=env_path, override=True)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
-# Initialize the Gemini GenAI Client
-client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else genai.Client()
+# Initialize the Gemini GenAI Client lazily to prevent startup crashes if key is not set
+_client = None
+
+def get_gemini_client():
+    global _client
+    if _client is None:
+        # Check both the loaded env variable and the direct environment
+        key = GEMINI_API_KEY or os.getenv("GEMINI_API_KEY")
+        if not key:
+            raise ValueError("GEMINI_API_KEY environment variable is missing. Please add it to your Render Environment Variables.")
+        _client = genai.Client(api_key=key)
+    return _client
 
 def generate_llm(system_prompt: str, user_message: str, model: str = None) -> str:
     """Helper to query the Gemini API with system instructions, including robust rate limit retries."""
     if not model:
         model = GEMINI_MODEL
     config = {"system_instruction": system_prompt}
+    
+    client = get_gemini_client()
     
     max_retries = 8
     backoff = 3.0
